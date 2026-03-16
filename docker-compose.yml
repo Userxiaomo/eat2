@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  openclaw:
+    image: 1panel/openclaw:2026.3.8
+    container_name: openclaw
+    init: true
+    restart: always
+    command:
+      - node
+      - dist/index.js
+      - gateway
+      - --bind
+      - lan
+      - --port
+      - "18789"
+    environment:
+      HOME: /home/node
+      TERM: xterm-256color
+    ports:
+      # 格式为 "宿主机端口:容器内端口"，左侧端口可按需修改
+      - "18789:18789"
+      - "18790:18790"
+    volumes:
+      # 将当前目录下的 ./data/conf 和 ./data/workspace 挂载到容器内
+      - ./data/conf:/home/node/.openclaw
+      - ./data/workspace:/home/node/.openclaw/workspace
